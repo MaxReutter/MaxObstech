@@ -46,7 +46,7 @@ for e in res:
         x.append(t + 24*60*60)
         y.append(e[1])
 
-plt.scatter(x, y, 0.3, c='b', alpha=0.2)
+plt.scatter(x, y, 30, c='b', alpha=0.1, label='blue: date range 1')
 
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
@@ -81,7 +81,7 @@ for e in res:
         x2.append(t + 24*60*60)
         y2.append(e[1])
 
-plt.scatter(x2, y2, 0.3, c='r', alpha=0.2)
+plt.scatter(x2, y2, 30, c='r', alpha=0.1, label='red: date range 2')
 
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
@@ -116,7 +116,7 @@ for e in res:
         x3.append(t + 24*60*60)
         y3.append(e[1])
 
-plt.scatter(x3, y3, 0.3, c='g', alpha=0.2)
+plt.scatter(x3, y3, 30, c='g', alpha=0.1, label='green: date range 3')
 
     # day = int(e[0][8:10])
     # if day > prevDay:
@@ -128,6 +128,7 @@ plt.scatter(x3, y3, 0.3, c='g', alpha=0.2)
 
 print "There are " + str(counter) + " data points."
 
+plt.legend()
 plt.title('UTC-4 sun:-15 moon:-5')
 plt.ylabel('Sky Quality Meter')
 # ticks = ['19:00:00','20:00:00','21:00:00','22:00:00','23:00:00','24:00:00', \
