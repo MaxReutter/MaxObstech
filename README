@@ -1,0 +1,15 @@
+formato de argumentos en terminal es:
+
+~$ main.py arg1 arg2 
+
+con
+
+arg1 --> year-month-day
+arg2 --> hour:minute:second
+
+ejemplo:
+
+~$ main.py 2018-04-15 17:06:12 
+
+REAL TIME:
+run tiempo_real.py in a 40x8 terminal
