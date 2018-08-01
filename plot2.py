@@ -18,8 +18,8 @@ import ephemerids
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`,`SiderealTime`,`sqm` FROM `weather` WHERE \
 `UTC` <= '2018-04-28 07:00:00' AND `UTC` >= '2017-04-28 19:00:00' AND\
-(`SunElevation` < -15 AND `MoonElevation` < -5 AND \
-`weatherstatus`= 'Go Science!') ORDER BY `UTC` ASC LIMIT 150000"
+`SunElevation` < -15 AND `MoonElevation` < -5 AND \
+`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 150000"
 db_cursor.execute(search)
 res = db_cursor.fetchall()
 print "From ", res[0], " to ", res[-1]
@@ -80,7 +80,6 @@ for e in res:
 #
 plt.scatter(x, y, 0.1, alpha=1)
 plt.ylabel('Sky Quality Meter')
-plt.xlabel('7pm to 7am')
 # ticks = ['19:00:00','20:00:00','21:00:00','22:00:00','23:00:00','24:00:00', \
 # '25:00:00','26:00:00','27:00:00','28:00:00','29:00:00','30:00:00','31:00:00']
 ticks = [19*60*60, 20*60*60, 21*60*60, 22*60*60, 23*60*60, 24*60*60, 25*60*60, \

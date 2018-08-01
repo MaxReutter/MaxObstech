@@ -1,7 +1,3 @@
-# s = '9:'
-# n = int(s[0:4])
-# print n
-
 #!/usr/bin/python
 import WeatherStatistics as WS
 import numpy as np
@@ -15,46 +11,32 @@ import datetime
 import pymysql.cursors
 import ephemerids
 
+colors = [
+'r', 'y', 'b', 'greenyellow', 'c', 'g', 'black', \
+'r', 'y', 'b', 'greenyellow', 'c', 'g', 'black', \
+'r', 'y', 'b', 'greenyellow', 'c', 'g', 'black', \
+'r', 'y', 'b', 'greenyellow', 'c', 'g', 'black', \
+'gray', 'gray', 'gray'] # 31 days
+
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
-(`SunElevation` < -15 AND `MoonElevation` < -5 AND \
-`UTC` <= '2018-12-01 00:00:00' AND `UTC` >= '2017-05-26 00:00:00' AND\
-`weatherstatus`= 'Go Science!') ORDER BY `UTC` ASC LIMIT 1000000"
-# search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
-# `UTC` <= '2017-07-15 00:00:00' AND `UTC` >= '2017-00-00 00:00:00' AND\
-# (`SunElevation` < -15 AND \
-# `weatherstatus`= 'Go Science!') ORDER BY `UTC` ASC LIMIT 150000"
+ `UTC` >= '2017-04-28 19:00:00' AND `UTC` <= '2018-04-28 07:00:00' AND\
+`SunElevation` < -15 AND `MoonElevation` < -5 AND \
+`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
+
 db_cursor.execute(search)
 res = db_cursor.fetchall()
 print "From ", res[0], " to ", res[-1]
 y = []
 x = []
-prevDay = int(res[0][0][8:10])
+x2 = []
+y2 = []
+#prevDay = int(res[0][0][8:10])
 counter = 0
-colors = ['r', 'y', 'b', 'black', 'c', 'g', 'greenyellow', \
-'r', 'y', 'b', 'black', 'c', 'g', 'greenyellow', \
-'r', 'y', 'b', 'black', 'c', 'g', 'greenyellow', \
-'r', 'y', 'b', 'black', 'c', 'g', 'greenyellow', \
-'gray', 'gray', 'gray'] # 31 days
 for e in res:
     counter += 1
-    day = int(e[0][8:10])
-    if day > prevDay:
-        prevDay = day
-        color = colors[day - 1]
-        plt.scatter(x, y, 0.2, c=color, alpha=1)
-        x = []
-        y = []
-
-    # print e[1]
-    # print len(e[0])
-    # month = int(e[0][5:7])
-    # print month
-    # if month > 3 and month < 10:
-    #     color = 'b'
-    # else:
-    #     color = 'r'
     UTCObstech = -4
+    day = int(e[0][8:10])
     hour = UTCObstech + int(e[0][11:13]) + 24 # para siempre trabajar solo con positivos incluso sumando UTC-23
     minute = int(e[0][14:16])
     second = int(e[0][17:19])
@@ -65,42 +47,35 @@ for e in res:
         # print minute
         # print second
         # print t
-        x.append(t)
-        y.append(e[1])
+        if day >= 15:
+            x.append(t)
+            y.append(e[1])
+        else:
+            x2.append(t)
+            y2.append(e[1])
     elif hour <= 7 + 24:
-        x.append(t + 24*60*60)
-        y.append(e[1])
+        if day >= 15:
+            x.append(t + 24*60*60)
+            y.append(e[1])
+        else:
+            x2.append(t + 24*60*60)
+            y2.append(e[1])
+
+plt.scatter(x, y, 0.3, c='b', alpha=0.5)
+plt.scatter(x2, y2, 0.3, c='r', alpha=0.5)
+
+    # day = int(e[0][8:10])
+    # if day > prevDay:
+    #     prevDay = day
+    #     color = colors[day - 1]
+    #     plt.scatter(x, y, 0.3, c=color, alpha=1)
+    #     x = []
+    #     y = []
 
 print "There are " + str(counter) + " data points."
 
-# y_temp = []
-# x_temp = []
-# counter = 0
-# chunksize = 1 # OJO! LIMIT debe ser divisible entero por chunksize
-# for e in res:
-#     #print e[2]
-#     y_temp.append(e[2])
-#     counter += 1
-#     #print counter
-#     if counter == chunksize:
-#         counter = 0
-#         sum = 0
-#         for i in y_temp:
-#             #print i
-#             sum += float(i)
-#             #print sum
-#         average = float(sum) / chunksize
-#         for i in range(chunksize):
-#             y.append(average)
-#             x.append(i)
-#
-#         y_temp = []
-#         #print y
-#         #print x
-#
 plt.title('UTC-4 sun:-15 moon:-5')
 plt.ylabel('Sky Quality Meter')
-plt.xlabel('7pm to 7am')
 # ticks = ['19:00:00','20:00:00','21:00:00','22:00:00','23:00:00','24:00:00', \
 # '25:00:00','26:00:00','27:00:00','28:00:00','29:00:00','30:00:00','31:00:00']
 ticks = [(24+19)*60*60, (24+20)*60*60, (24+21)*60*60, (24+22)*60*60, (24+23)*60*60, (24+24)*60*60, (24+25)*60*60, \
