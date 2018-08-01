@@ -20,7 +20,7 @@ colors = [
 
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
- `UTC` >= '2017-04-28 19:00:00' AND `UTC` <= '2018-04-28 07:00:00' AND\
+ `UTC` >= '2017-06-01 23:00:00' AND `UTC` <= '2017-07-01 11:00:00' AND\
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
 `weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
 
@@ -29,6 +29,34 @@ res = db_cursor.fetchall()
 print "From ", res[0], " to ", res[-1]
 y = []
 x = []
+#prevDay = int(res[0][0][8:10])
+counter = 0
+for e in res:
+    counter += 1
+    UTCObstech = -4
+    day = int(e[0][8:10])
+    hour = UTCObstech + int(e[0][11:13]) + 24 # para siempre trabajar solo con positivos incluso sumando UTC-23
+    minute = int(e[0][14:16])
+    second = int(e[0][17:19])
+    t = hour*60*60 + minute*60 + second # seconds from 19*60*60 (7pm) to (24 + 7)*60*60 (7am)
+    if hour >= 19 + 24:
+        x.append(t)
+        y.append(e[1])
+    elif hour <= 7 + 24:
+        x.append(t + 24*60*60)
+        y.append(e[1])
+
+plt.scatter(x, y, 0.3, c='b', alpha=0.2)
+
+[db_cursor, database] = WS.db_connect()
+search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
+`UTC` >= '2017-07-01 23:00:00' AND `UTC` <= '2017-08-01 11:00:00' AND\
+`SunElevation` < -15 AND `MoonElevation` < -5 AND \
+`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
+
+db_cursor.execute(search)
+res = db_cursor.fetchall()
+print "From ", res[0], " to ", res[-1]
 x2 = []
 y2 = []
 #prevDay = int(res[0][0][8:10])
@@ -47,22 +75,48 @@ for e in res:
         # print minute
         # print second
         # print t
-        if day >= 15:
-            x.append(t)
-            y.append(e[1])
-        else:
-            x2.append(t)
-            y2.append(e[1])
+        x2.append(t)
+        y2.append(e[1])
     elif hour <= 7 + 24:
-        if day >= 15:
-            x.append(t + 24*60*60)
-            y.append(e[1])
-        else:
-            x2.append(t + 24*60*60)
-            y2.append(e[1])
+        x2.append(t + 24*60*60)
+        y2.append(e[1])
 
-plt.scatter(x, y, 0.3, c='b', alpha=0.5)
-plt.scatter(x2, y2, 0.3, c='r', alpha=0.5)
+plt.scatter(x2, y2, 0.3, c='r', alpha=0.2)
+
+[db_cursor, database] = WS.db_connect()
+search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
+`UTC` >= '2017-08-01 23:00:00' AND `UTC` <= '2017-09-01 11:00:00' AND\
+`SunElevation` < -15 AND `MoonElevation` < -5 AND \
+`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
+
+db_cursor.execute(search)
+res = db_cursor.fetchall()
+print "From ", res[0], " to ", res[-1]
+x3 = []
+y3 = []
+#prevDay = int(res[0][0][8:10])
+counter = 0
+for e in res:
+    counter += 1
+    UTCObstech = -4
+    day = int(e[0][8:10])
+    hour = UTCObstech + int(e[0][11:13]) + 24 # para siempre trabajar solo con positivos incluso sumando UTC-23
+    minute = int(e[0][14:16])
+    second = int(e[0][17:19])
+    t = hour*60*60 + minute*60 + second # seconds from 19*60*60 (7pm) to (24 + 7)*60*60 (7am)
+    if hour >= 19 + 24:
+        # print e[1]
+        # print hour
+        # print minute
+        # print second
+        # print t
+        x3.append(t)
+        y3.append(e[1])
+    elif hour <= 7 + 24:
+        x3.append(t + 24*60*60)
+        y3.append(e[1])
+
+plt.scatter(x3, y3, 0.3, c='g', alpha=0.2)
 
     # day = int(e[0][8:10])
     # if day > prevDay:
