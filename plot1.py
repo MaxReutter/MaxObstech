@@ -17,7 +17,7 @@ colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 #binSize = 10080 # data points, one per minute, 10.080 a week
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
-`UTC` >= '2017-07-04 10:29:00' AND `UTC` <= '2017-07-11 23:10:00' AND \
+`UTC` >= '2017-08-05 10:17:00' AND `UTC` <= '2017-08-14 03:30:00' AND \
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
 `weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
 
