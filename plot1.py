@@ -17,7 +17,7 @@ colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 #binSize = 10080 # data points, one per minute, 10.080 a week
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
-`UTC` >= '2017-05-26 23:00:00' AND `UTC` <= '2018-07-01 11:00:00' AND \
+`UTC` >= '2017-07-04 10:29:00' AND `UTC` <= '2017-07-11 23:10:00' AND \
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
 `weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
 
@@ -28,12 +28,13 @@ y = []
 x = []
 counter = 0
 for e in res:
+    print e
     x.append(counter)
     y.append(e[1])
     counter += 1
 
 print "There are " + str(counter) + " data points."
-plt.scatter(x, y, 0.01, c='black', alpha=1, label='data point')
+plt.scatter(x, y, 0.2, c='black', alpha=1, label='data point')
 plt.legend()
 plt.title('UTC-4 sun:-15 moon:-5 // data points in cronological order')
 plt.ylabel('Sky Quality Meter')
