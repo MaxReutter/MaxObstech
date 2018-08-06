@@ -1,7 +1,7 @@
 -scatter de los valores del sqm cuando el sol esta a menos de -15 grados, la luna esta a menos de -5 y el status es go science,
 -sqm en funcion de hora UT, sqm en func de hora sideral,
 -para UT para sol a -15 y a -0 grados
--sqm en func de la phase de la luna cuando la luna esta a mas de -15 grados del horizante
+-sqm en func de la fase de la luna cuando la luna esta a mas de -15 grados del horizante
 
 justhost.com
 login: obstecho

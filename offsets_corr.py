@@ -10,6 +10,7 @@ from pylab import cm
 import datetime
 import pymysql.cursors
 import ephemerids
+from datetime import datetime
 
 #colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 
@@ -50,36 +51,42 @@ offset8 = 0.28+0.34
 y9 = []
 x9 = []
 offset9 = 0.34
+x10 = []
+y10 = []
 counter = 0
 for e in res:
     #print e[0]
+    time = datetime.strptime(e[0], '%Y-%m-%d %H:%M:%S')
     if e[0] <= '2017-07-04 10:29:14':
-    	x.append(counter)
+    	x.append(time)
     	y.append(e[1] + offset)
     elif e[0] <= '2017-08-05 10:17:15':
-        x2.append(counter)
+        x2.append(time)
     	y2.append(e[1] + offset2)
     elif e[0] <= '2017-11-30 08:15:29':
-        x3.append(counter)
+        x3.append(time)
     	y3.append(e[1] + offset3)
     elif e[0] <= '2018-01-29 08:54:35':
-        x4.append(counter)
+        x4.append(time)
     	y4.append(e[1] + offset4)
     elif e[0] <= '2018-02-04 01:46:23':
-        x5.append(counter)
+        x5.append(time)
     	y5.append(e[1] + offset5)
     elif e[0] <= '2018-02-07 03:34:24':
-        x6.append(counter)
+        x6.append(time)
     	y6.append(e[1] + offset6)
     elif e[0] <= '2018-02-08 04:10:21':
-        x7.append(counter)
+        x7.append(time)
     	y7.append(e[1] + offset7)
     elif e[0] <= '2018-02-09 03:19:30':
-        x8.append(counter)
+        x8.append(time)
     	y8.append(e[1] + offset8)
     elif e[0] <= '2018-02-22 09:19:23':
-        x9.append(counter)
+        x9.append(time)
     	y9.append(e[1] + offset9)
+    else:
+        x10.append(time)
+        y10.append(e[1])
     counter += 1
 
 print "There are " + str(counter) + " data points."
@@ -92,11 +99,16 @@ plt.scatter(x6, y6, 0.2, c='c', alpha=1, label='data point')
 plt.scatter(x7, y7, 0.2, c='black', alpha=1, label='data point')
 plt.scatter(x8, y8, 0.2, c='r', alpha=1, label='data point')
 plt.scatter(x9, y9, 0.2, c='g', alpha=1, label='data point')
-plt.legend()
-plt.title('UTC-4 sun:-15 moon:-5 // data points in cronological order // offsets applied')
+plt.scatter(x10, y10, 0.2, c='b', alpha=1, label='data point')
+#plt.legend()
+plt.title('UTC // sun:-15 moon:-5 // cronological order // offsets applied')
 plt.ylabel('Sky Quality Meter')
-ticks = [0, counter-1]
-ticks_labels = ['%s' % (res[0][0]), '%s' % (res[-1][0])]
+# ticks = [0, counter-1]
+# ticks_labels = ['%s' % (res[0][0]), '%s' % (res[-1][0])]
+time_start = datetime(2017,5,26,4,38,15)
+time_end = datetime(2018,8,6,5,22,39)
+ticks = [time_start, time_end]
+ticks_labels = [time_start, time_end]
 plt.xticks(ticks, ticks_labels)
-plt.savefig("offsets_corr.png")
+plt.savefig("offsets_corr2.png")
 plt.show()

@@ -13,8 +13,6 @@ import ephemerids
 
 colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 
-
-#binSize = 10080 # data points, one per minute, 10.080 a week
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
 `UTC` >= '2017-01-01 03:29:25' AND `UTC` <= '2018-12-25 01:08:24' AND \
