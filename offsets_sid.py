@@ -10,6 +10,7 @@ from pylab import cm
 import datetime
 import pymysql.cursors
 import ephemerids
+from datetime import datetime
 
 #colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 
@@ -52,33 +53,35 @@ x9 = []
 offset9 = 0.34
 counter = 0
 for e in res:
+    time = datetime.strptime(e[2], '%H:%M:%S.%f')
+    print time
     #print e[2][0:5]
     # if e[0] <= '2017-07-04 10:29:14':
-    # 	x.append(e[2][0:5])
+    # 	x.append(time)
     # 	y.append(e[1] + offset)
     # elif e[0] <= '2017-08-05 10:17:15':
-    #     x2.append(e[2][0:5])
+    #     x2.append(time)
     # 	y2.append(e[1] + offset2)
     if e[0] <= '2017-11-30 08:15:29':
-        x3.append(e[2][0:5])
+        x3.append(time)
     	y3.append(e[1] + offset3)
     elif e[0] <= '2018-01-29 08:54:35':
-        x4.append(e[2][0:5])
+        x4.append(time)
     	y4.append(e[1] + offset4)
     elif e[0] <= '2018-02-04 01:46:23':
-        x5.append(e[2][0:5])
+        x5.append(time)
     	y5.append(e[1] + offset5)
     elif e[0] <= '2018-02-07 03:34:24':
-        x6.append(e[2][0:5])
+        x6.append(time)
     	y6.append(e[1] + offset6)
     elif e[0] <= '2018-02-08 04:10:21':
-        x7.append(e[2][0:5])
+        x7.append(time)
     	y7.append(e[1] + offset7)
     elif e[0] <= '2018-02-09 03:19:30':
-        x8.append(e[2][0:5])
+        x8.append(time)
     	y8.append(e[1] + offset8)
     elif e[0] <= '2018-02-22 09:19:23':
-        x9.append(e[2][0:5])
+        x9.append(time)
     	y9.append(e[1] + offset9)
     counter += 1
 
@@ -95,10 +98,10 @@ plt.scatter(x9, y9, 1, c='black', alpha=0.05, label='data point')
 plt.legend()
 plt.title('Sidereal time // sun:-15 moon:-5 // offsets applied')
 plt.ylabel('Sky Quality Meter')
-ticks = ['00:00', '24:00']
-ticks_labels = ['0hrs', '24hrs']
-time_start = time(0,0,0)
-time_end = time(24,0,0)
+# ticks = ['00:00', '24:00']
+# ticks_labels = ['0hrs', '24hrs']
+time_start = datetime(1900,1,1,0,0,0)
+time_end = datetime(1900,1,1,23,59,59)
 ticks = [time_start, time_end]
 ticks_labels = [time_start, time_end]
 plt.xticks(ticks, ticks_labels)
