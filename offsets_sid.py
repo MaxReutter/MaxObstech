@@ -11,10 +11,9 @@ import datetime
 import pymysql.cursors
 import ephemerids
 from datetime import datetime
+import matplotlib.dates as mdates
+myFmt = mdates.DateFormatter('%H%M')
 
-#colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
-
-#binSize = 10080 # data points, one per minute, 10.080 a week
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm`, `SiderealTime` FROM `weather` WHERE \
 `UTC` > '2017-08-05 10:17:15' AND `UTC` <= '2018-12-01 01:08:24' AND \
@@ -54,7 +53,6 @@ offset9 = 0.34
 counter = 0
 for e in res:
     time = datetime.strptime(e[2], '%H:%M:%S.%f')
-    print time
     #print e[2][0:5]
     # if e[0] <= '2017-07-04 10:29:14':
     # 	x.append(time)
@@ -62,7 +60,7 @@ for e in res:
     # elif e[0] <= '2017-08-05 10:17:15':
     #     x2.append(time)
     # 	y2.append(e[1] + offset2)
-    if e[0] <= '2017-11-30 08:15:29':
+    if e[0] <= '2017-11-30 08:15:29' and e[0] > '2017-08-05 10:17:15':
         x3.append(time)
     	y3.append(e[1] + offset3)
     elif e[0] <= '2018-01-29 08:54:35':
@@ -86,24 +84,24 @@ for e in res:
     counter += 1
 
 print "There are " + str(counter) + " data points."
-# plt.scatter(x, y, 1, c='black', alpha=0.05, label='data point')
-# plt.scatter(x2, y2, 1, c='r', alpha=0.05, label='data point')
-plt.scatter(x3, y3, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x4, y4, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x5, y5, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x6, y6, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x7, y7, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x8, y8, 1, c='black', alpha=0.05, label='data point')
-plt.scatter(x9, y9, 1, c='black', alpha=0.05, label='data point')
-plt.legend()
+# plt.scatter(x, y, 1, c='black', alpha=0.05)
+# plt.scatter(x2, y2, 1, c='r', alpha=0.05)
+plt.scatter(x3, y3, 0.1, c='black', alpha=0.05)
+plt.scatter(x4, y4, 0.1, c='black', alpha=0.05)
+plt.scatter(x5, y5, 0.1, c='black', alpha=0.05)
+plt.scatter(x6, y6, 0.1, c='black', alpha=0.05)
+plt.scatter(x7, y7, 0.1, c='black', alpha=0.05)
+plt.scatter(x8, y8, 0.1, c='black', alpha=0.05)
+plt.scatter(x9, y9, 0.1, c='black', alpha=0.05)
+#plt.legend()
 plt.title('Sidereal time // sun:-15 moon:-5 // offsets applied')
 plt.ylabel('Sky Quality Meter')
-# ticks = ['00:00', '24:00']
-# ticks_labels = ['0hrs', '24hrs']
-time_start = datetime(1900,1,1,0,0,0)
-time_end = datetime(1900,1,1,23,59,59)
-ticks = [time_start, time_end]
-ticks_labels = [time_start, time_end]
-plt.xticks(ticks, ticks_labels)
+time_start = datetime(1900,1,1,0,0,0,0)
+time_end = datetime(1900,1,1,23,59,59,999999)
+plt.xlim(time_start, time_end)
+plt.grid(True)
+plt.gcf().autofmt_xdate()
+myFmt = mdates.DateFormatter('%H:%M')
+plt.gca().xaxis.set_major_formatter(myFmt)
 plt.savefig("offsets_sid.png")
 plt.show()
