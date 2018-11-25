@@ -15,9 +15,8 @@ colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
 
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather` WHERE \
-`UTC` >= '2017-01-01 03:29:25' AND `UTC` <= '2018-12-25 01:08:24' AND \
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
-`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
+`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC"
 
 db_cursor.execute(search)
 res = db_cursor.fetchall()
@@ -39,5 +38,5 @@ plt.ylabel('Sky Quality Meter')
 ticks = [0, counter-1]
 ticks_labels = ['%s' % (res[0][0]), '%s' % (res[-1][0])]
 plt.xticks(ticks, ticks_labels)
-plt.savefig("1_alldatapoints.png")
+plt.savefig("1_alldatapoints_UTC.png")
 plt.show()

@@ -50,6 +50,8 @@ offset8 = 0.28+0.34
 y9 = []
 x9 = []
 offset9 = 0.34
+y10 = []
+x10 = []
 counter = 0
 for e in res:
     time = datetime.strptime(e[2], '%H:%M:%S.%f')
@@ -60,7 +62,7 @@ for e in res:
     # elif e[0] <= '2017-08-05 10:17:15':
     #     x2.append(time)
     # 	y2.append(e[1] + offset2)
-    if e[0] <= '2017-11-30 08:15:29' and e[0] > '2017-08-05 10:17:15':
+    if e[0] <= '2017-11-30 08:15:29':
         x3.append(time)
     	y3.append(e[1] + offset3)
     elif e[0] <= '2018-01-29 08:54:35':
@@ -81,18 +83,22 @@ for e in res:
     elif e[0] <= '2018-02-22 09:19:23':
         x9.append(time)
     	y9.append(e[1] + offset9)
+    else:
+        x10.append(time)
+        y10.append(e[1])
     counter += 1
 
 print "There are " + str(counter) + " data points."
 # plt.scatter(x, y, 1, c='black', alpha=0.05)
 # plt.scatter(x2, y2, 1, c='r', alpha=0.05)
-plt.scatter(x3, y3, 0.1, c='black', alpha=0.05)
-plt.scatter(x4, y4, 0.1, c='black', alpha=0.05)
-plt.scatter(x5, y5, 0.1, c='black', alpha=0.05)
-plt.scatter(x6, y6, 0.1, c='black', alpha=0.05)
-plt.scatter(x7, y7, 0.1, c='black', alpha=0.05)
-plt.scatter(x8, y8, 0.1, c='black', alpha=0.05)
-plt.scatter(x9, y9, 0.1, c='black', alpha=0.05)
+plt.scatter(x3, y3, 0.05, c='black', alpha=0.05)
+plt.scatter(x4, y4, 0.05, c='black', alpha=0.05)
+plt.scatter(x5, y5, 0.05, c='black', alpha=0.05)
+plt.scatter(x6, y6, 0.05, c='black', alpha=0.05)
+plt.scatter(x7, y7, 0.05, c='black', alpha=0.05)
+plt.scatter(x8, y8, 0.05, c='black', alpha=0.05)
+plt.scatter(x9, y9, 0.05, c='black', alpha=0.05)
+#plt.scatter(x10, y10, 0.05, c='black', alpha=0.05)
 #plt.legend()
 plt.title('Sidereal time // sun:-15 moon:-5 // offsets applied')
 plt.ylabel('Sky Quality Meter')
@@ -103,5 +109,5 @@ plt.grid(True)
 plt.gcf().autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M')
 plt.gca().xaxis.set_major_formatter(myFmt)
-plt.savefig("offsets_sid.png")
+plt.savefig("offsets_sid_antes.png")
 plt.show()
