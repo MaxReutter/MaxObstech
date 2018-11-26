@@ -11,8 +11,6 @@ import datetime
 import pymysql.cursors
 import ephemerids
 
-colors = ['r', 'y', 'b', 'greenyellow', 'c', 'g', 'black']
-
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm` FROM `weather_calib` WHERE \
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
@@ -33,7 +31,7 @@ for e in res:
     counter += 1
 
 print "There are " + str(counter) + " data points."
-plt.scatter(x, y, 0.2, c='black', alpha=1, label='data point')
+plt.scatter(x, y, 0.1, c='black', alpha=0.1, label='data point')
 plt.legend()
 plt.title('UTC sun:-15 moon:-5 // data points in cronological order')
 plt.ylabel('Sky Quality Meter')

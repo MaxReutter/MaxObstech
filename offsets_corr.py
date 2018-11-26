@@ -14,9 +14,11 @@ from datetime import datetime
 import matplotlib.dates as mdates
 
 [db_cursor, database] = WS.db_connect()
-search = "SELECT `fecha`, `sqm` FROM `weather` WHERE \
-`SunElevation` < -15 AND `MoonElevation` < -5 AND \
-`weatherstatus`= 'Go Science!' ORDER BY `fecha` ASC"
+search = "SELECT `UTC`, `sqm` FROM `weather_calib` \
+WHERE `SunElevation` < -15 \
+AND `MoonElevation` < -5 \
+AND `weatherstatus`= 'Go Science!' \
+ORDER BY `UTC` ASC"
 
 db_cursor.execute(search)
 res = db_cursor.fetchall()
@@ -53,18 +55,11 @@ y10 = []
 counter = 0
 for e in res:
     #print e[0]
-    date = datetime.strptime(e[0], '%Y-%m-%d %H:%M:%S')
-    time = date
-    # if (date.hour-4)  >= 0 and (date.hour-4) < 12:
-    #     time = datetime(1900,1,2,(date.hour-4),date.minute,date.second,0)
-    # elif (date.hour-4) < 0:
-    #     time = datetime(1900,1,1,24+(date.hour-4),date.minute,date.second,0)
-    # else:
-    #     time = datetime(1900,1,1,(date.hour-4),date.minute,date.second,0)
-    if e[0] <= '2017-07-04 10:29:14':
+    time = datetime.strptime(e[0], '%Y-%m-%d %H:%M:%S')
+    if e[0] <= '2017-07-04 10:29:14': # esta data fue borrada de weather_calib
     	x.append(time)
     	y.append(e[1] + offset)
-    elif e[0] <= '2017-08-05 10:17:15':
+    elif e[0] <= '2017-08-05 10:17:15': # esta data fue borrada de weather calib
         x2.append(time)
     	y2.append(e[1] + offset2)
     elif e[0] <= '2017-11-30 08:15:29':
@@ -94,7 +89,7 @@ for e in res:
     counter += 1
 
 print "There are " + str(counter) + " data points."
-plt.scatter(x, y, 0.2, c='black', alpha=1)
+plt.scatter(x, y, 0.2, c='g', alpha=1)
 plt.scatter(x2, y2, 0.2, c='r', alpha=1)
 plt.scatter(x3, y3, 0.05, c='black', alpha=0.05)
 plt.scatter(x4, y4, 0.05, c='black', alpha=0.05)
@@ -105,7 +100,7 @@ plt.scatter(x8, y8, 0.05, c='black', alpha=0.05)
 plt.scatter(x9, y9, 0.05, c='black', alpha=0.05)
 plt.scatter(x10, y10, 0.05, c='black', alpha=0.05)
 #plt.legend()
-plt.title('UTC // sun:-15 moon:-5 // first months filtered // offsets applied')
+plt.title('UTC // sun:-15, moon:-5 // foffsets applied')
 plt.ylabel('Sky Quality Meter')
 # time_start = datetime(1900,1,1,19,0,0,0)
 # time_end = datetime(1900,1,2,6,59,59,999999)
@@ -118,5 +113,5 @@ plt.grid(True)
 plt.gcf().autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M')
 plt.gca().xaxis.set_major_formatter(myFmt)
-plt.savefig("offsets_corr5.png")
+plt.savefig("offsets_corr.png")
 plt.show()

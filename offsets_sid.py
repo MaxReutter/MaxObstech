@@ -15,20 +15,22 @@ import matplotlib.dates as mdates
 myFmt = mdates.DateFormatter('%H%M')
 
 [db_cursor, database] = WS.db_connect()
-search = "SELECT `UTC`, `sqm`, `SiderealTime` FROM `weather` WHERE \
-`UTC` > '2017-08-05 10:17:15' AND `UTC` <= '2018-12-01 01:08:24' AND \
-`SunElevation` < -15 AND `MoonElevation` < -5 AND \
-`weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC LIMIT 1000000"
+search = "SELECT `UTC`, `sqm`, `SiderealTime` \
+FROM `weather_calib` \
+WHERE  `SunElevation` < -15 \
+AND `MoonElevation` < -5 \
+AND `weatherstatus`= 'Go Science!' \
+ORDER BY `UTC` ASC"
 
 db_cursor.execute(search)
 res = db_cursor.fetchall()
 print "From ", res[0], " to ", res[-1]
-# y = []
-# x = []
-# offset = 0.7-3.2+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
-# y2 = []
-# x2 = []
-# offset2 = 0.7+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
+y = []
+x = []
+offset = 0.7-3.2+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
+y2 = []
+x2 = []
+offset2 = 0.7+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
 y3 = []
 x3 = []
 offset3 = 0.35+0.32-0.28-0.11-0.19-0.29+0.28+0.34
@@ -55,14 +57,14 @@ x10 = []
 counter = 0
 for e in res:
     time = datetime.strptime(e[2], '%H:%M:%S.%f')
-    #print e[2][0:5]
-    # if e[0] <= '2017-07-04 10:29:14':
-    # 	x.append(time)
-    # 	y.append(e[1] + offset)
-    # elif e[0] <= '2017-08-05 10:17:15':
-    #     x2.append(time)
-    # 	y2.append(e[1] + offset2)
-    if e[0] <= '2017-11-30 08:15:29':
+    # print e[2][0:5]
+    if e[0] <= '2017-07-04 10:29:14': # data borrada de weather_calib
+    	x.append(time)
+    	y.append(e[1] + offset)
+    elif e[0] <= '2017-08-05 10:17:15': # data borrada de weather_calib
+        x2.append(time)
+    	y2.append(e[1] + offset2)
+    elif e[0] <= '2017-11-30 08:15:29':
         x3.append(time)
     	y3.append(e[1] + offset3)
     elif e[0] <= '2018-01-29 08:54:35':
@@ -89,8 +91,8 @@ for e in res:
     counter += 1
 
 print "There are " + str(counter) + " data points."
-# plt.scatter(x, y, 1, c='black', alpha=0.05)
-# plt.scatter(x2, y2, 1, c='r', alpha=0.05)
+plt.scatter(x, y, 1, c='g', alpha=0.05)
+plt.scatter(x2, y2, 1, c='r', alpha=0.05)
 plt.scatter(x3, y3, 0.05, c='black', alpha=0.05)
 plt.scatter(x4, y4, 0.05, c='black', alpha=0.05)
 plt.scatter(x5, y5, 0.05, c='black', alpha=0.05)
@@ -98,8 +100,8 @@ plt.scatter(x6, y6, 0.05, c='black', alpha=0.05)
 plt.scatter(x7, y7, 0.05, c='black', alpha=0.05)
 plt.scatter(x8, y8, 0.05, c='black', alpha=0.05)
 plt.scatter(x9, y9, 0.05, c='black', alpha=0.05)
-#plt.scatter(x10, y10, 0.05, c='black', alpha=0.05)
-#plt.legend()
+plt.scatter(x10, y10, 0.05, c='black', alpha=0.05)
+# plt.legend()
 plt.title('Sidereal time // sun:-15 moon:-5 // offsets applied')
 plt.ylabel('Sky Quality Meter')
 time_start = datetime(1900,1,1,0,0,0,0)
@@ -109,5 +111,5 @@ plt.grid(True)
 plt.gcf().autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M')
 plt.gca().xaxis.set_major_formatter(myFmt)
-plt.savefig("offsets_sid_antes.png")
+plt.savefig("offsets_sid.png")
 plt.show()
