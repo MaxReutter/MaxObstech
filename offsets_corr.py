@@ -14,7 +14,7 @@ from datetime import datetime
 import matplotlib.dates as mdates
 
 [db_cursor, database] = WS.db_connect()
-search = "SELECT `UTC`, `sqm` FROM `weather_calib` \
+search = "SELECT `UTC`, `sqm` FROM `weather_OVERHAUL` \
 WHERE `SunElevation` < -15 \
 AND `MoonElevation` < -5 \
 AND `weatherstatus`= 'Go Science!' \
@@ -25,31 +25,40 @@ res = db_cursor.fetchall()
 print "From ", res[0], " to ", res[-1]
 y = []
 x = []
-offset = 0.7-3.2+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
+offset = 0
+# offset = 0.7-3.2+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
 y2 = []
 x2 = []
-offset2 = 0.7+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
+offset2 = 0
+# offset2 = 0.7+2.09+0.32-0.28-0.11-0.19-0.29+0.28+0.34
 y3 = []
 x3 = []
-offset3 = 0.35+0.32-0.28-0.11-0.19-0.29+0.28+0.34
+offset3 = 0
+# offset3 = 0.35+0.32-0.28-0.11-0.19-0.29+0.28+0.34
 y4 = []
 x4 = []
-offset4 = 0.35-0.28-0.11-0.19-0.29+0.28+0.34
+offset4 = 0
+# offset4 = 0.35-0.28-0.11-0.19-0.29+0.28+0.34
 y5 = []
 x5 = []
-offset5 = -0.11-0.19-0.29+0.28+0.34
+offset5 = 0
+# offset5 = -0.11-0.19-0.29+0.28+0.34
 y6 = []
 x6 = []
-offset6 = -0.19-0.29+0.28+0.34
+offset6 = 0
+# offset6 = -0.19-0.29+0.28+0.34
 y7 = []
 x7 = []
-offset7 = -0.29+0.28+0.34
+offset7 = 0
+# offset7 = -0.29+0.28+0.34
 y8 = []
 x8 = []
-offset8 = 0.28+0.34
+offset8 = 0
+# offset8 = 0.28+0.34
 y9 = []
 x9 = []
-offset9 = 0.34
+offset9 = 0
+# offset9 = 0.34
 x10 = []
 y10 = []
 counter = 0
@@ -89,8 +98,8 @@ for e in res:
     counter += 1
 
 print "There are " + str(counter) + " data points."
-plt.scatter(x, y, 0.2, c='g', alpha=1)
-plt.scatter(x2, y2, 0.2, c='r', alpha=1)
+plt.scatter(x, y, 0.05, c='black', alpha=0.05)
+plt.scatter(x2, y2, 0.05, c='black', alpha=0.05)
 plt.scatter(x3, y3, 0.05, c='black', alpha=0.05)
 plt.scatter(x4, y4, 0.05, c='black', alpha=0.05)
 plt.scatter(x5, y5, 0.05, c='black', alpha=0.05)
@@ -100,7 +109,7 @@ plt.scatter(x8, y8, 0.05, c='black', alpha=0.05)
 plt.scatter(x9, y9, 0.05, c='black', alpha=0.05)
 plt.scatter(x10, y10, 0.05, c='black', alpha=0.05)
 #plt.legend()
-plt.title('UTC // sun:-15, moon:-5 // foffsets applied')
+plt.title('UTC // sun:-15, moon:-5 // offsets applied')
 plt.ylabel('Sky Quality Meter')
 # time_start = datetime(1900,1,1,19,0,0,0)
 # time_end = datetime(1900,1,2,6,59,59,999999)
@@ -113,5 +122,5 @@ plt.grid(True)
 plt.gcf().autofmt_xdate()
 myFmt = mdates.DateFormatter('%H:%M')
 plt.gca().xaxis.set_major_formatter(myFmt)
-plt.savefig("offsets_corr.png")
+plt.savefig("offsets_corr_OVERHAUL.png")
 plt.show()

@@ -20,6 +20,7 @@ import ephemerids
 [db_cursor, database] = WS.db_connect()
 search = "SELECT `UTC`, `sqm`, `id` \
 FROM `weather_calib` \
+WHERE `UTC` >= '2017-08-28 15:03:29' \
 ORDER BY `UTC` ASC"
 
 db_cursor.execute(search)

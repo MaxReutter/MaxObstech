@@ -12,7 +12,7 @@ import pymysql.cursors
 import ephemerids
 
 [db_cursor, database] = WS.db_connect()
-search = "SELECT `UTC`, `sqm` FROM `weather_calib` WHERE \
+search = "SELECT `UTC`, `sqm` FROM `weather_OVERHAUL` WHERE \
 `SunElevation` < -15 AND `MoonElevation` < -5 AND \
 `weatherstatus`= 'Go Science!' ORDER BY `UTC` ASC"
 
@@ -38,5 +38,5 @@ plt.ylabel('Sky Quality Meter')
 ticks = [0, counter-1]
 ticks_labels = ['%s' % (res[0][0]), '%s' % (res[-1][0])]
 plt.xticks(ticks, ticks_labels)
-plt.savefig("alldatapoints_UTC.png")
+plt.savefig("alldatapoints_OVERHAUL.png")
 plt.show()
